@@ -1,0 +1,60 @@
+.user-register-container {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(to bottom right, #fdfbfb, #ebedee);
+  font-family: "Segoe UI", sans-serif;
+}
+
+.user-register-card {
+  background: #fff;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  width: 350px;
+  text-align: center;
+  animation: fadeSlideUp 0.6s ease-out;
+}
+
+.user-register-card h2 {
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.user-register-card input {
+  padding: 10px;
+  margin: 8px 0;
+  width: 93%;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+.user-register-card button {
+  background-color: #007bff;
+  color: white;
+  padding: 12px;
+  margin-top: 12px;
+  width: 100%;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 15px;
+}
+
+.user-register-card button:hover {
+  background-color: #0056b3;
+}
+
+@keyframes fadeSlideUp {
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

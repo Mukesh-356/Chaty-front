@@ -1,0 +1,166 @@
+/* .home-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #e0f7fa, #fce4ec);
+  font-family: 'Segoe UI', sans-serif;
+  animation: fadeIn 1s ease-in;
+}
+
+.home-title {
+  font-size: 3rem;
+  color: #1f2937;
+  margin-bottom: 40px;
+  text-shadow: 1px 1px 4px rgba(0,0,0,0.2);
+}
+
+.card-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+
+.card-link {
+  text-decoration: none;
+  padding: 25px 35px;
+  border-radius: 12px;
+  font-size: 1.3rem;
+  font-weight: 500;
+  color: white;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  min-width: 200px;
+  text-align: center;
+  animation: slideUp 0.8s ease forwards;
+  opacity: 0;
+}
+
+.card-link:nth-child(1) {
+  animation-delay: 0.1s;
+}
+.card-link:nth-child(2) {
+  animation-delay: 0.3s;
+}
+.card-link:nth-child(3) {
+  animation-delay: 0.5s;
+}
+
+.card-link.admin {
+  background-color: #3b82f6;
+}
+.card-link.user {
+  background-color: #10b981;
+}
+.card-link.register {
+  background-color: #ec4899;
+}
+
+.card-link:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0 }
+  to { opacity: 1 }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+} */
+
+
+
+.home-container {
+  padding: 40px;
+  background: linear-gradient(to bottom right, #eef2f3, #ffffff);
+  font-family: 'Segoe UI', sans-serif;
+  min-height: 100vh;
+}
+
+.college-name {
+  text-align: center;
+  font-size: 38px;
+  color: #004080;
+  margin-bottom: 40px;
+  font-weight: bold;
+}
+
+.portal-section {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  margin-bottom: 60px;
+  flex-wrap: wrap;
+}
+
+.card {
+  width: 260px;
+  padding: 25px;
+  background-color: white;
+  border-radius: 15px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s ease;
+  cursor: pointer;
+  text-align: center;
+}
+
+.card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.25);
+  background: #f0f8ff;
+}
+
+.admin-card {
+  border-left: 6px solid #f44336;
+}
+.user-card {
+  border-left: 6px solid #2196f3;
+}
+
+.features-section {
+  margin-top: 30px;
+  padding: 20px;
+}
+
+.features-title {
+  text-align: center;
+  font-size: 26px;
+  margin-bottom: 25px;
+  color: #333;
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 20px;
+}
+
+.feature-card {
+  padding: 20px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.feature-card:hover {
+  background-color: #e0f7fa;
+  transform: translateY(-5px);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.2);
+}
+
+.feature-card h3 {
+  margin-bottom: 10px;
+  color: #004d40;
+}
