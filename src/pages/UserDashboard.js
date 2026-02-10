@@ -199,7 +199,6 @@
 
 
 
-
 import React, { useEffect, useState, useRef } from "react";
 import { io } from "socket.io-client";
 import axios from "axios";
@@ -217,9 +216,19 @@ const UserDashboard = () => {
 
   const username = localStorage.getItem("username");
   const socketRef = useRef(null);
-  const chatEndRef = useRef(null); //  scroll anchor
+  const chatEndRef = useRef(null);
   const navigate = useNavigate();
 
+  // 🔥 logout function (move above useEffect)
+  const handleLogout = async () => {
+    try {
+      await axios.post("http://localhost:5000/api/user/logout", { username });
+    } catch (err) {}
+    localStorage.removeItem("username");
+    navigate("/");
+  };
+
+  // 🔥 main socket + data useEffect
   useEffect(() => {
     const fetchRouterIP = async () => {
       try {
@@ -235,13 +244,16 @@ const UserDashboard = () => {
     socketRef.current.emit("user-joined", username);
 
     socketRef.current.on("update-user-list", setOnlineUsers);
+
     socketRef.current.on("receive-message", (data) => {
       setChat((prev) => [...prev, data]);
-      scrollToBottom(); // ✅ scroll to latest
+      scrollToBottom();
     });
+
     socketRef.current.on("user-typing", (typingName) => {
       if (typingName !== username) setTypingUser(typingName);
     });
+
     socketRef.current.on("user-stop-typing", () => setTypingUser(null));
 
     axios.get("http://localhost:5000/api/messages").then((res) => {
@@ -249,16 +261,23 @@ const UserDashboard = () => {
     });
 
     fetchRouterIP();
-    return () => socketRef.current.disconnect();
-  }, [username]);
 
+    return () => socketRef.current.disconnect();
+  }, [username]); // eslint-disable-line
+
+  // auto scroll
   useEffect(() => {
     scrollToBottom();
   }, [chat]);
 
+  const scrollToBottom = () => {
+    chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
   const handleTyping = (e) => {
     setMessage(e.target.value);
     socketRef.current.emit("typing", username);
+
     clearTimeout(window.typingTimeout);
     window.typingTimeout = setTimeout(() => {
       socketRef.current.emit("stop-typing");
@@ -274,10 +293,6 @@ const UserDashboard = () => {
     return "📁";
   };
 
-  const scrollToBottom = () => {
-    chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  };
-
   const sendMessage = async () => {
     if (!message.trim() && !file) return;
 
@@ -289,12 +304,15 @@ const UserDashboard = () => {
 
     const to = selectedUser === "All" ? null : selectedUser;
 
+    // 🔥 file send
     if (file) {
       const formData = new FormData();
       formData.append("file", file);
       formData.append("username", username);
+
       try {
         const res = await axios.post("http://localhost:5000/api/user/upload", formData);
+
         socketRef.current.emit("chat-message", {
           username,
           text: res.data.filename,
@@ -302,6 +320,7 @@ const UserDashboard = () => {
           fileUrl: res.data.url,
           to,
         });
+
         setFile(null);
         setMessage("");
         return;
@@ -311,21 +330,17 @@ const UserDashboard = () => {
       }
     }
 
+    // 🔥 text send
     if (message.trim()) {
       socketRef.current.emit("chat-message", {
         username,
         text: message,
         to,
       });
+
       setMessage("");
       socketRef.current.emit("stop-typing");
     }
-  };
-
-  const handleLogout = async () => {
-    await axios.post("http://localhost:5000/api/user/logout", { username });
-    localStorage.removeItem("username");
-    navigate("/");
   };
 
   return (
@@ -344,6 +359,7 @@ const UserDashboard = () => {
             </li>
           ))}
         </ul>
+
         <button
           onClick={() => setSelectedUser("All")}
           className={selectedUser === "All" ? "group-active" : "group-button"}
@@ -367,6 +383,7 @@ const UserDashboard = () => {
               <div key={index} className={`chat-bubble ${isSelf ? "sent" : "received"}`}>
                 <div className="bubble-content">
                   {!isSelf && <span className="bubble-name">{msg.username}</span>}
+
                   {msg.isFile ? (
                     <a href={msg.fileUrl} target="_blank" rel="noopener noreferrer">
                       {getFileIcon(msg.text)} {msg.text}
@@ -374,11 +391,13 @@ const UserDashboard = () => {
                   ) : (
                     msg.text
                   )}
+
                   {msg.to && (
                     <span className="to-tag">
                       (to {msg.to === username ? "You" : msg.to})
                     </span>
                   )}
+
                   <span className="tick">
                     {msg.status === "✅✅" ? "✅✅" : "✓"}
                   </span>
@@ -386,7 +405,7 @@ const UserDashboard = () => {
               </div>
             );
           })}
-          <div ref={chatEndRef} /> {/* ✅ Auto scroll target */}
+          <div ref={chatEndRef} />
         </div>
 
         {typingUser && (
@@ -401,8 +420,10 @@ const UserDashboard = () => {
             onChange={handleTyping}
             onKeyDown={(e) => e.key === "Enter" && sendMessage()}
           />
+
           <input type="file" onChange={(e) => setFile(e.target.files[0])} />
           {file && <span className="filename">📎 {file.name}</span>}
+
           <button onClick={sendMessage}>Send</button>
         </div>
       </div>

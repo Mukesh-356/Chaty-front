@@ -7,7 +7,7 @@ const UserLogin = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [clientIP, setClientIP] = useState("");
+  // const [clientIP, setClientIP] = useState("");
   const [routerIP, setRouterIP] = useState("");
   const [loading, setLoading] = useState(true);
 
