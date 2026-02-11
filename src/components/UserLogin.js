@@ -1,43 +1,26 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
-import "../Styles/UserLogin.css"; // CSS file you will create below
+import "../Styles/UserLogin.css";
 
 const UserLogin = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  // const [clientIP, setClientIP] = useState("");
-  const [routerIP, setRouterIP] = useState("");
-  const [loading, setLoading] = useState(true);
 
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const fetchLocalIP = async () => {
-      try {
-        const res = await axios.get("https://chaty-server-oio8.onrender.com/api/network/info");
-        setTimeout(() => {
-          // setClientIP(res.data.clientIP);
-          setRouterIP(res.data.routerIP);
-          setLoading(false);
-        }, 2000);
-      } catch (err) {
-        console.error("❌ Failed to get local IP info", err);
-        setLoading(false);
-      }
-    };
-    fetchLocalIP();
-  }, []);
-
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     try {
-      const res = await axios.post("https://chaty-server-oio8.onrender.com/api/user/login", {
-        username,
-        password,
-        ip: routerIP,
-      });
+      const res = await axios.post(
+        "https://chaty-server-oio8.onrender.com/api/user/login",
+        {
+          username,
+          password,
+        }
+      );
 
       if (res.data.success) {
         localStorage.setItem("username", username);
@@ -47,6 +30,7 @@ const UserLogin = () => {
         alert("❌ Login failed: " + res.data.message);
       }
     } catch (err) {
+      console.error(err);
       alert("❌ Server error");
     }
   };
@@ -55,6 +39,7 @@ const UserLogin = () => {
     <div className="user-login-container">
       <div className="user-login-card">
         <h2>👤 User Login</h2>
+
         <form onSubmit={handleSubmit}>
           <input
             type="text"
@@ -77,22 +62,10 @@ const UserLogin = () => {
             </span>
           </div>
 
-          {loading ? (
-            <div className="loader-container">
-              <div className="loader"></div>
-              <p>Detecting IP addresses...</p>
-            </div>
-          ) : (
-            <div className="ip-info">
-              {/* <p><strong>📱 Device IP :</strong> <code>{clientIP}</code></p> */}
-              <p><strong>📶 WiFi Router IP :</strong> <code>{routerIP}</code></p>
-            </div>
-          )}
-
-          <button type="submit" disabled={loading}>Login</button>
+          <button type="submit">Login</button>
 
           <div className="login-footer">
-            <Link to="/" className="back-link">🏠 Back to Home</Link>
+            <Link to="/" className="back-link">🏠 Back</Link>
             <Link to="/user-register" className="register-link">📝 Register</Link>
           </div>
         </form>
