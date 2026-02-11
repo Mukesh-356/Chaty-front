@@ -16,7 +16,7 @@ const UserLogin = () => {
   useEffect(() => {
     const fetchLocalIP = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/network/info");
+        const res = await axios.get("https://chaty-server-oio8.onrender.com/api/network/info");
         setTimeout(() => {
           // setClientIP(res.data.clientIP);
           setRouterIP(res.data.routerIP);
@@ -33,7 +33,7 @@ const UserLogin = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("http://localhost:5000/api/user/login", {
+      const res = await axios.post("https://chaty-server-oio8.onrender.com/api/user/login", {
         username,
         password,
         ip: routerIP,

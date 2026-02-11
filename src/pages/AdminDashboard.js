@@ -142,7 +142,7 @@ const AdminDashboard = () => {
 
   const fetchIPs = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/admin/allowed-ips");
+      const res = await axios.get("https://chaty-server-oio8.onrender.com/api/admin/allowed-ips");
       setAllowedIPs(res.data.allowedIPs);
     } catch {
       alert("❌ Failed to fetch IPs");
@@ -152,7 +152,7 @@ const AdminDashboard = () => {
   const handleAdd = async () => {
     if (!newIP) return;
     try {
-      await axios.post("http://localhost:5000/api/admin/add-ip", { ip: newIP });
+      await axios.post("https://chaty-server-oio8.onrender.com/api/admin/add-ip", { ip: newIP });
       setNewIP("");
       fetchIPs();
     } catch {
@@ -162,7 +162,7 @@ const AdminDashboard = () => {
 
   const handleRemove = async (ip) => {
     try {
-      await axios.post("http://localhost:5000/api/admin/remove-ip", { ip });
+      await axios.post("https://chaty-server-oio8.onrender.com/api/admin/remove-ip", { ip });
       fetchIPs();
     } catch {
       alert("❌ Failed to remove IP");
@@ -171,7 +171,7 @@ const AdminDashboard = () => {
 
   const fetchLoginHistory = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/admin/login-history");
+      const res = await axios.get("https://chaty-server-oio8.onrender.com/api/admin/login-history");
       setLoginHistory(res.data.data);
       setAllHistory(res.data.data); // Keep full data for reset
     } catch {

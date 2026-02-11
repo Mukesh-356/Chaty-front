@@ -12,7 +12,7 @@ const UserRegister = () => {
   const handleRegister = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("http://localhost:5000/api/user/register", {
+      const res = await axios.post("https://chaty-server-oio8.onrender.com/api/user/register", {
         username,
         email,
         password,

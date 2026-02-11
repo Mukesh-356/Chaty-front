@@ -222,7 +222,7 @@ const UserDashboard = () => {
   // 🔥 logout function (move above useEffect)
   const handleLogout = async () => {
     try {
-      await axios.post("http://localhost:5000/api/user/logout", { username });
+      await axios.post("https://chaty-server-oio8.onrender.com/api/user/logout", { username });
     } catch (err) {}
     localStorage.removeItem("username");
     navigate("/");
@@ -232,7 +232,7 @@ const UserDashboard = () => {
   useEffect(() => {
     const fetchRouterIP = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/network/info");
+        const res = await axios.get("https://chaty-server-oio8.onrender.com/api/network/info");
         setInitialRouterIP(res.data.routerIP);
       } catch {
         alert("❌ Unable to detect router IP. Logging out...");
@@ -240,7 +240,7 @@ const UserDashboard = () => {
       }
     };
 
-    socketRef.current = io("http://localhost:5000");
+    socketRef.current = io("https://chaty-server-oio8.onrender.com");
     socketRef.current.emit("user-joined", username);
 
     socketRef.current.on("update-user-list", setOnlineUsers);
@@ -256,7 +256,7 @@ const UserDashboard = () => {
 
     socketRef.current.on("user-stop-typing", () => setTypingUser(null));
 
-    axios.get("http://localhost:5000/api/messages").then((res) => {
+    axios.get("https://chaty-server-oio8.onrender.com/api/messages").then((res) => {
       if (res.data.success) setChat(res.data.messages);
     });
 
@@ -296,7 +296,7 @@ const UserDashboard = () => {
   const sendMessage = async () => {
     if (!message.trim() && !file) return;
 
-    const res = await axios.get("http://localhost:5000/api/network/info");
+    const res = await axios.get("https://chaty-server-oio8.onrender.com/api/network/info");
     if (res.data.routerIP !== initialRouterIP) {
       alert("❌ You are not connected to allowed WiFi.");
       return;
@@ -311,7 +311,7 @@ const UserDashboard = () => {
       formData.append("username", username);
 
       try {
-        const res = await axios.post("http://localhost:5000/api/user/upload", formData);
+        const res = await axios.post("https://chaty-server-oio8.onrender.com/api/user/upload", formData);
 
         socketRef.current.emit("chat-message", {
           username,
